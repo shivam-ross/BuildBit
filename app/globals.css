@@ -1,5 +1,6 @@
 @import "tailwindcss";
-
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import '@fortawesome/fontawesome-svg-core/styles.css';
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -24,3 +25,4 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+

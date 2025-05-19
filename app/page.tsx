@@ -1,103 +1,94 @@
+'use client'
+import { BackgroundBeams } from "@/components/background";
+import { Window } from "@/components/icons/window";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { SignIn } from "@/components/signin";
+import { Close } from "@/components/icons/close";
+import { Projects } from "@/components/projects";
+
+const suggestions = [
+  "Create a developer's portfolio",
+  "Create a bakery shop"
+]
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [prompt, setPrompt] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
+  const router = useRouter();
+  const session = useSession();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      setOpenDialog(false);
+    }
+  }, [session, openDialog]);
+
+
+  return (
+   <div className="static w-screen h-screen">
+    { showProjects && <Projects setShowProjects={setShowProjects}/>}
+    { openDialog &&
+      <SignIn setOpenDialog={setOpenDialog} />}
+    <BackgroundBeams className="bg-neutral-950"/>
+    <div className="relative w-full h-full">
+      <div className="flex flex-row items-center justify-between p-2">
+        <div className="flex flex-row items-center gap-3 mx-4">
+          <Image
+          src={"/logo-3.png"}
+          width={50}
+          height={50}
+          alt="logo"/>
+          <h2 className="font-sans text-xl font-semibold text-[#e4e2dd]">Buildbit</h2>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div>
+
+          {session.status === "authenticated" ? 
+          <button
+          onClick={()=>{setShowProjects(true)}}
+          ><Window 
+          className="text-[#e4e2dd] w-5 h-5"/>
+          </button> : <button 
+          onClick={()=>{setOpenDialog(true)}}
+          className="text-[#e4e2dd] font-sans text-md py-1 px-2 font-semibold border-1 border-[#e4e2dd] rounded-lg">Sign In</button>
+          }
+
+        </div>
+      </div>
+      <motion.div
+      initial={{opacity:0, y:20}}
+      animate={{opacity:1, y:0}}
+      transition={{duration:0.4}}
+       className="flex flex-col justify-center items-center h-[80vh]">
+        <h2 className="text-[#e4e2dd] text-2xl sm:text-4xl mb-2 font-sans font-semibold">What do you want to create?</h2>
+        <textarea
+        value={prompt}
+        onChange={(e)=>{setPrompt(e.target.value)}}
+         placeholder="Describe what you want to create..."
+         className="bg-white/5 backdrop-blur-sm shadow-xl shadow-white/5 border border-2 border-white/10 rounded-xl w-sm sm:w-lg max-h-[150px] min-h-[150px] h-[150px] text-neutral-300 text-sm font-mono p-2 hover:border-white/20"/> 
+        <div className="flex gap-2 justify-end w-sm sm:w-lg m-2">
+          {
+            suggestions.map((v, i) => 
+              <p key={i}
+              onClick={()=>{setPrompt(v)}}
+              className="text-xs text-neutral-500 bg-white/5 py-1 px-2 rounded-lg border border-white/5"
+              >{v}</p>
+            )
+          }
+        </div>
+        <div className="flex w-sm sm:w-lg justify-end m-2">
+            <button
+            disabled={prompt.length === 0 && session.status === "authenticated"}
+             className={"bg-[#e4e2dd] text-neutral-950 font-mono text-base py-1 px-2 rounded-lg hover:bg-white hover:text-black" + (prompt.length === 0 && session.status === "authenticated" ? " cursor-not-allowed" : "")}
+            onClick={()=> {(session.status !== "authenticated") ? setOpenDialog(true) : router.push(`/create?prompt=${prompt}`)}}
+            >Create</button>
+        </div>
+      </motion.div>
     </div>
+   </div>
   );
 }

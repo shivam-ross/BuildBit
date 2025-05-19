@@ -1,0 +1,39 @@
+.gjs-one-bg {
+    background-color: #0a0a0a !important;
+  }
+  
+  .gjs-two-color {
+    color: #e4e2dd !important;
+  }
+  
+  .gjs-four-color {
+    color: #757575 !important;
+  }
+  
+  .gjs-editor {
+    font-family: Lato !important;
+    font-size: 13px !important;
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+  }
+  
+  .gjs-cv-canvas {
+    border-radius: 10px !important;
+  }
+
+  #gjs {
+    height: 100% !important;
+    width: 100% !important;
+    background-color: #0a0a0a !important;
+  }
+
+  @media (max-width: 1023px) {
+    .gjs-pn-buttons {
+        display: block !important;
+    }
+}
+
+.group:hover .fa-solid {
+  display: none !important;
+}

@@ -35,7 +35,7 @@ export async function POST (request : NextRequest) {
             for (const url of imageUrls) {
                 try {
                     await axios.head(url);
-                } catch (error) {
+                } catch {
                     // Replace invalid image with a verified fallback
                     site = site.replace(url, "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg");
                 }
@@ -45,8 +45,7 @@ export async function POST (request : NextRequest) {
            
     
             return new Response(JSON.stringify(site), { status: 200 });
-        } catch (error) {
-            console.error(error);
+        } catch {
             return new Response("internal server error", { status: 500 });
         }
 }

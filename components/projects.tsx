@@ -4,8 +4,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchProject } from "@/app/actions/fetchProject";
 import { useRouter } from "next/navigation";
 
+interface Project {
+  id: string;
+  prompt: string;
+}
+
 export function Projects({ setShowProjects }: { setShowProjects: (show: boolean) => void }) {
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -46,13 +51,13 @@ export function Projects({ setShowProjects }: { setShowProjects: (show: boolean)
         }
 
         const response = await fetchProject(page);
-        const data: { res: any[]; hasMore?: boolean } = 
+        const data: { res: Project[]; hasMore?: boolean } = 
           response instanceof Response ? await response.json() : response;
         if (isMounted && 'res' in data && Array.isArray(data.res)) {
           // Ensure no duplicates by filtering out existing project IDs
           setProjects((prev) => {
             const existingIds = new Set(prev.map((p) => p.id)); // Assuming projects have an 'id' field
-            const newProjects = (data.res || []).filter((p: any) => !existingIds.has(p.id));
+            const newProjects = (data.res || []).filter((p: Project) => !existingIds.has(p.id));
             return [...prev, ...newProjects];
           });
           setHasMore(data.hasMore ?? data.res.length >= 10);

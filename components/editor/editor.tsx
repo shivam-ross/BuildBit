@@ -21,9 +21,9 @@ const Editor = ({ initialHtml, setHtml, id }: { initialHtml: string; id: string;
   const [userResponded, setUserResponded] = useState(true);
   const [aiEditResponse, setAiEditResponse] = useState('');
 
-  const debounce = (func: (...args: any[]) => void, wait: number) => {
+  const debounce = (func: (...args: string[]) => void, wait: number) => {
     let timeout: NodeJS.Timeout;
-    return (...args: any[]) => {
+    return (...args: string[]) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => func(...args), wait);
     };
@@ -68,7 +68,7 @@ const Editor = ({ initialHtml, setHtml, id }: { initialHtml: string; id: string;
     const editor = editorRef.current;
     const html = editor.getHtml();
     const css = editor.getCss();
-    const scripts = editor.getComponents().filter((c: { is: (arg0: string) => any; }) => c.is('script')).map(c => c.get('content')).join('\n');
+    const scripts = editor.getComponents().filter((c: { is: (arg0: string) => string; }) => c.is('script')).map(c => c.get('content')).join('\n');
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -132,7 +132,7 @@ const Editor = ({ initialHtml, setHtml, id }: { initialHtml: string; id: string;
 
       // Explicit save command for the button
       editor.Commands.add('save-db', {
-        run: (editor) => {
+        run: () => {
           const completeHtml = getFullHtml();
           setHtml(completeHtml); // Update local state
           saveToDatabase(completeHtml); // Explicitly trigger save
@@ -161,7 +161,7 @@ const Editor = ({ initialHtml, setHtml, id }: { initialHtml: string; id: string;
       });
 
       // Custom render method for the save button to change its icon
-      editor.on('panel:run:options:save', (panelId, commandId) => {
+      editor.on('panel:run:options:save', () => {
         const btn = editor.Panels.getButton('options', 'save');
         if (btn) {
           // This will be handled by React state and render loop, not directly here

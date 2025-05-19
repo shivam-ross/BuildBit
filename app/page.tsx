@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { SignIn } from "@/components/signin";
-import { Close } from "@/components/icons/close";
 import { Projects } from "@/components/projects";
 
 const suggestions = [
@@ -26,7 +25,7 @@ export default function Home() {
     if (session.status === "authenticated") {
       setOpenDialog(false);
     }
-  }, [session, openDialog]);
+  }, [session]);
 
 
   return (
@@ -84,7 +83,11 @@ export default function Home() {
             <button
             disabled={prompt.length === 0 && session.status === "authenticated"}
              className={"bg-[#e4e2dd] text-neutral-950 font-mono text-base py-1 px-2 rounded-lg hover:bg-white hover:text-black" + (prompt.length === 0 && session.status === "authenticated" ? " cursor-not-allowed" : "")}
-            onClick={()=> {(session.status !== "authenticated") ? setOpenDialog(true) : router.push(`/create?prompt=${prompt}`)}}
+            onClick={()=> {if (session.status !== "authenticated") {
+              setOpenDialog(true)
+            } else{
+               router.push(`/create?prompt=${prompt}`)}
+              }}
             >Create</button>
         </div>
       </motion.div>

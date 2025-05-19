@@ -5,29 +5,33 @@ import Loading from "@/components/loading/loading";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ProjectPage({ params }: { params: { id: string } }) {
+export default function ProjectPage() {
     interface ProjectData {
         content: string;
         prompt: string;
         id: string;
     }
 
-    const [data, setData] = useState<ProjectData| undefined>();
+    const [data, setData] = useState<ProjectData | undefined>();
     const [html, setHtml] = useState<string>("");
-    const [loading,setLoading] = useState(true);
-    const { id } = useParams() as { id: string | undefined };
-
+    const [loading, setLoading] = useState(true);
+    const { id } = useParams(); // Returns { id: string | string[] | undefined }
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
+                // Ensure id is a string
+                if (typeof id !== "string") {
+                    throw new Error("Invalid project ID");
+                }
+
                 const response = await fetch(`/api/projects`, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ id: id })
+                    body: JSON.stringify({ id }),
                 });
 
                 if (!response.ok) {
@@ -44,15 +48,15 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
         };
 
         if (id) fetchData();
-    },[id]);
+    }, [id]);
 
     if (loading) {
-        return <Loading text={"Fetching"}/>
+        return <Loading text="Fetching" />;
     }
 
     return (
         <div className="w-screen h-screen">
-            {data && id && <Editor initialHtml={html} setHtml={setHtml} id={id} />}
+            {data && <Editor initialHtml={html} setHtml={setHtml} id={data.id} />}
         </div>
-    )
+    );
 }

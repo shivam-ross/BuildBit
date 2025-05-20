@@ -88,7 +88,7 @@ export function Projects({ setShowProjects }: { setShowProjects: (show: boolean)
       />
       <div
         onClick={(e) => e.stopPropagation()}
-        className="absolute w-md h-screen top-0 right-0 bg-neutral-950/80 backdrop-blur z-50 border border-white/20"
+        className="absolute w-sm sm:w-md h-screen top-0 right-0 bg-neutral-950/80 backdrop-blur z-50 border border-white/20"
       >
         <div className="flex flex-row items-center justify-between bg-white/5 backdrop-blur rounded-lg mt-2 mx-3">
           <div className="flex flex-row items-center gap-2 ml-2">

@@ -33,7 +33,3 @@
         display: block !important;
     }
 }
-
-.group:hover .fa-solid {
-  display: none !important;
-}

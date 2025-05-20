@@ -352,18 +352,9 @@ const Editor = ({ initialHtml, setHtml, id }: { initialHtml: string; id: string;
       </div> : <div className="absolute bottom-5 left-5 z-20 group">
       <div
     onClick={()=>{setShowAiDialog(true);}}>
-    <div className="bg-neutral-950 rounded-full p-2 group-hover:hidden">
-    <i className="fa-solid fa-wand-magic-sparkles fa-shake fa-xl text-[#e4e2dd]"></i>
-    </div>
-    <div className="hidden group-hover:block bg-neutral-950 rounded-lg ">
-      <div className="flex gap-2 items-center justify-center m-1 group-hover:block">
-      <Image
-      src={"/logo-3.png"}
-      width={40}
-      height={40}
-      alt="logo"/>
-      <h3 className="text-[#e4e2dd] text-lg font-sans m-1 group-hover:block">Edit with AI</h3>
-      </div>
+    <div className="bg-neutral-950 rounded-full p-2 flex items-center justify-center min-w-[50px] min-h-[50px]">
+    <p className="fa-solid fa-wand-magic-sparkles fa-shake fa-xl text-[#e4e2dd]"></p>
+    <h3 className="text-[#e4e2dd] text-lg font-sans ml-1 hidden group-hover:block">Edit with AI</h3>
     </div>
     </div>
     </div>}

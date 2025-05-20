@@ -8,7 +8,6 @@ import 'grapesjs-preset-webpage';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import parserPostCSS from 'grapesjs-parser-postcss';
-import Image from 'next/image';
 import Loading from '../loading/loading';
 
 const Editor = ({ initialHtml, setHtml, id }: { initialHtml: string; id: string; setHtml: (html: string) => void }) => {

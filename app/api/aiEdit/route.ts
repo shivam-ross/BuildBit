@@ -36,7 +36,7 @@ export async function POST (request : NextRequest) {
         for (const url of imageUrls) {
             try {
                 await axios.head(url);
-            } catch (imgError) {
+            } catch {
                 site = site.replace(url, "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg");
             }
         }

@@ -5,7 +5,7 @@ import axios from "axios";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 
-export const maxDuration = 500;
+export const maxDuration = 300;
 
 export async function POST (request : NextRequest) {
 

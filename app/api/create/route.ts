@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
 
     try {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-04-17" }); // Upgraded to a more capable model
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite-preview-06-17" }); // Upgraded to a more capable model
         const result = await model.generateContent(prompt);
         let site = result.response.text();
 

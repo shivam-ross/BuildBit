@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lora, Lato} from "next/font/google";
 import "./globals.css";
 import { Providers } from "./provider";
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Lora({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <Providers>
         {children}
+        <Analytics />
         </Providers>
       </body>
     </html>

@@ -29,7 +29,7 @@ export default function Home() {
 
 
   return (
-   <div className="static w-screen h-screen">
+   <div className="static min-w-screen min-h-screen w-full h-full">
     { showProjects && <Projects setShowProjects={setShowProjects}/>}
     { openDialog &&
       <SignIn setOpenDialog={setOpenDialog} />}
@@ -61,7 +61,7 @@ export default function Home() {
       <motion.div
       initial={{opacity:0, y:20}}
       animate={{opacity:1, y:0}}
-      transition={{duration:0.4}}
+      transition={{duration:0.4, ease:"easeInOut"}}
        className="flex flex-col justify-center items-center h-[80vh]">
         <h2 className="text-[#e4e2dd] text-2xl sm:text-4xl mb-2 font-sans font-semibold">What do you want to create?</h2>
         <textarea
@@ -80,15 +80,17 @@ export default function Home() {
           }
         </div>
         <div className="flex w-sm sm:w-lg justify-end m-2">
-            <button
-            disabled={prompt.length === 0 && session.status === "authenticated"}
-             className={"bg-[#e4e2dd] text-neutral-950 font-mono text-base py-1 px-2 rounded-lg hover:bg-white hover:text-black" + (prompt.length === 0 && session.status === "authenticated" ? " cursor-not-allowed" : "")}
-            onClick={()=> {if (session.status !== "authenticated") {
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              disabled={prompt.length === 0 && session.status === "authenticated"}
+              className={"bg-[#e4e2dd] text-neutral-950 font-mono text-base py-1 px-2 rounded-lg hover:bg-white hover:text-black" + (prompt.length === 0 && session.status === "authenticated" ? " cursor-not-allowed" : "")}
+              onClick={()=> {if (session.status !== "authenticated") {
               setOpenDialog(true)
             } else{
                router.push(`/create?prompt=${prompt}`)}
               }}
-            >Create</button>
+            >Create</motion.button>
         </div>
       </motion.div>
     </div>

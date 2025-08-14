@@ -51,7 +51,7 @@ export async function PUT(request: NextRequest) {
 
     try {
         const res = await prisma.projects.update({
-            where: { id: id },
+            where: { id: id, userId: session.user.id },
             data: { content: completeHtml }
         });
 

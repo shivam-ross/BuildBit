@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { SignIn } from "@/components/signin";
 import { Projects } from "@/components/projects";
-
+import Loading from "@/components/loading/loading";
 const suggestions = [
   "Create a developer's portfolio",
   "Create a bakery shop"
@@ -18,6 +18,7 @@ export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const session = useSession();
 
@@ -26,6 +27,39 @@ export default function Home() {
       setOpenDialog(false);
     }
   }, [session]);
+
+  async function handleCreate(){
+    if (session.status !== "authenticated") {
+      setOpenDialog(true);
+    } else {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ prompt: prompt })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const id = await response.json();
+          router.push(`/project/${id}`);
+        } catch (error) {
+            console.error("Failed to fetch data:", error);
+                //  Handle error appropriately, maybe set an error state
+            } finally {
+              setLoading(false);
+            }
+        };
+    }
+
+    if (loading) {
+      return <Loading text={"Creating"}/>;
+    }
+
 
 
   return (
@@ -85,11 +119,7 @@ export default function Home() {
               whileTap={{ scale: 0.95 }}
               disabled={prompt.length === 0 && session.status === "authenticated"}
               className={"bg-[#e4e2dd] text-neutral-950 font-mono text-base py-1 px-2 rounded-lg hover:bg-white hover:text-black" + (prompt.length === 0 && session.status === "authenticated" ? " cursor-not-allowed" : "")}
-              onClick={()=> {if (session.status !== "authenticated") {
-              setOpenDialog(true)
-            } else{
-               router.push(`/create?prompt=${prompt}`)}
-              }}
+              onClick={handleCreate}
             >Create</motion.button>
         </div>
       </motion.div>

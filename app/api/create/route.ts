@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
             }
         });
 
-        return new Response(JSON.stringify(res), { status: 200 });
+        return new Response(JSON.stringify(res.id), { status: 200 });
     } catch {
         
         return new Response("internal server error", { status: 500 });

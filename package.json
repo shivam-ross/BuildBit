@@ -27,7 +27,7 @@
     "grapesjs-parser-postcss": "^1.0.3",
     "grapesjs-preset-webpage": "^1.0.3",
     "jszip": "^3.10.1",
-    "next": "15.3.1",
+    "next": "15.3.8",
     "next-auth": "^4.24.11",
     "prisma": "^6.7.0",
     "react": "^19.0.0",
